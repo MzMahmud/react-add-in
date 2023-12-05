@@ -8,13 +8,6 @@ interface GistGistCardProps {
 }
 
 export function GistCard({ gist, selectedGistId, onGistSelected }: GistGistCardProps) {
-  const handleSelectGist = (id: string | null) => {
-    if (onGistSelected == null) {
-      return;
-    }
-    onGistSelected(id);
-  };
-
   return (
     <div className="gist">
       <label>
@@ -23,7 +16,7 @@ export function GistCard({ gist, selectedGistId, onGistSelected }: GistGistCardP
           name="gist"
           value={gist.id}
           checked={selectedGistId === gist.id}
-          onChange={(e) => handleSelectGist(e.target.value)}
+          onChange={(_) => onGistSelected && onGistSelected(gist.id)}
         />
         &nbsp;{gist.title}
         <div className="gist__detail">
