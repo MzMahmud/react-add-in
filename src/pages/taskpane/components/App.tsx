@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Gist } from "../../../models/gist.model";
 import { GistSelector } from "./GistSelector";
 
@@ -27,10 +27,24 @@ const gists: Gist[] = [
 ];
 
 export function App({}: AppProps) {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   return (
-    <>
-      <GistSelector gists={gists} />
-    </>
+    <main>
+      <div className="gists-section">
+        <GistSelector gists={gists} selectedGistId={null} onGistSelected={(id) => console.warn(id)} />
+      </div>
+      {errorMessage != null && <div className="error-message">{errorMessage}</div>}
+      <div className="btn-container">
+        <div>
+          <button className="ms-Button ms-Button--primary insert-btn">
+            <span className="ms-Button-label">Insert</span>
+          </button>
+        </div>
+        <div>
+          <button className="ms-Button ms-Button--secondary settings-btn">⚙️</button>
+        </div>
+      </div>
+    </main>
   );
 }
 

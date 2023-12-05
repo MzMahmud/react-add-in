@@ -2,7 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "./components/App";
 
-/* global document, Office, module, require */
+/* global module, require */
 
 const rootElement: HTMLElement = document.getElementById("container");
 const root = createRoot(rootElement);
