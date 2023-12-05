@@ -1,5 +1,6 @@
-import { Gist } from "../models/gist.model";
 import axios from "axios";
+import { Gist } from "../models/gist.model";
+import { AsyncResponse } from "../models/response.model";
 
 type GistResponseFile = {
   filename: string;
@@ -22,6 +23,13 @@ export function getUserPublicGists(githubUserName: string): Promise<Gist[]> {
       console.error("error fetching public gists", error);
       return [];
     });
+}
+
+export async function getGistWithContent(gistId: string): Promise<AsyncResponse<Gist>> {
+  return axios
+    .get<GistResponse>(`https://api.github.com/gists/${gistId}`)
+    .then(({ data: gistResponse }) => ({ status: "SUCCESS" as const, value: mapGistResponseToGist(gistResponse) }))
+    .catch((error) => ({ status: "ERROR" as const, message: `${error}` }));
 }
 
 function mapGistResponseToGist(gistResponse: GistResponse): Gist {

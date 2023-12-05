@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Gist } from "../../../models/gist.model";
+import { Gist, getHtmlContent } from "../../../models/gist.model";
+import { Settings } from "../../../models/settings.model";
+import { getGistWithContent, getUserPublicGists } from "../../../services/gist";
 import { setSelectedDataAsHtml } from "../../../services/office";
 import { GistSelector } from "./GistSelector";
-import { Settings } from "../../../models/settings.model";
-import { getUserPublicGists } from "../../../services/gist";
 
-interface AppProps {}
+const settings: Settings = { githubUsername: "MzMahmud" };
 
-const settings: Settings = { githubUsername: "alfred" };
-
-export function App({}: AppProps) {
+export function App() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [selectedGistId, setSelectedGistId] = useState<string | null>(null);
   const [gists, setGists] = useState<Gist[]>([]);
@@ -27,13 +25,18 @@ export function App({}: AppProps) {
       setErrorMessage("No gist is selected!");
       return;
     }
-    const gist = gists.find((gist) => gist.id === selectedGistId);
-    if (gist == null) {
-      setErrorMessage("Gist not found!");
+    const gistRes = await getGistWithContent(selectedGistId);
+    if (gistRes.status === "ERROR") {
+      setErrorMessage(gistRes.message);
+      return;
+    }
+    const htmlContent = getHtmlContent(gistRes.value);
+    const res = await setSelectedDataAsHtml(htmlContent);
+    if (res.status === "ERROR") {
+      setErrorMessage(res.message);
       return;
     }
     setErrorMessage(null);
-    setSelectedDataAsHtml(gist.title);
   };
 
   return (
