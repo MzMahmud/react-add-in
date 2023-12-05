@@ -98,7 +98,7 @@
         </bt:Images>
         <bt:Urls>
           <bt:Url id="Actions.Url" DefaultValue="https://localhost:5000/commands.html" />
-          <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:5000/taskpane.html" />
+          <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:5000/insert-gist.html" />
         </bt:Urls>
         <bt:ShortStrings>
           <bt:String id="GroupLabel" DefaultValue="Git the gist" />
