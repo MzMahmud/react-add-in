@@ -1,6 +1,6 @@
 # Git the Gists
 
-This is an outlook add-in which helps user to insert code snippets from a github user's public gists into their componse email. This is based on the [Tutorial: Build a message compose Outlook add-in](https://learn.microsoft.com/en-us/office/dev/add-ins/tutorials/outlook-tutorial) from Microsoft Learn. In the original article, the app was implemented in Vanilla JS, but this repository implements the add-in in Angular.
+This is an outlook add-in which helps user to insert code snippets from a github user's public gists into their componse email. This is based on the [Tutorial: Build a message compose Outlook add-in](https://learn.microsoft.com/en-us/office/dev/add-ins/tutorials/outlook-tutorial) from Microsoft Learn. In the original article, the app was implemented in Vanilla JS, but this repository implements the add-in in Raect.
 
 ## Development Setup
 
