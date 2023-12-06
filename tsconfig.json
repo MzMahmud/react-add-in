@@ -11,6 +11,8 @@
     "outDir": "dist",
     "removeComments": false,
     "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
     "target": "es5",
     "lib": [
       "es7",
