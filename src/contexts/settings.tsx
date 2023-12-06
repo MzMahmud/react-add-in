@@ -13,12 +13,16 @@ type SettingsContextType = {
 
 const SETTINGS_KEY = "SettingsContext.settings";
 
+export function getSettings() {
+  return getFromRoamingSettings<Settings>(SETTINGS_KEY);
+}
+
 const SettingsContext = createContext<SettingsContextType>({ settings: null, updateSettings: async () => {} });
 
 export function SettingsContextProvider({ children }: SettingsContextProviderProps) {
   const [settings, setSettings] = useState<Settings | null>(null);
   useEffect(() => {
-    setSettings(getFromRoamingSettings<Settings>(SETTINGS_KEY));
+    setSettings(getSettings());
   }, []);
   const updateSettings = async (settings: Settings) => {
     await setToRoamingSettings(SETTINGS_KEY, settings);

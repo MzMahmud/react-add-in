@@ -55,3 +55,7 @@ export function displayDialogAsync(
 export function messageParent(message: string) {
   Office.context.ui.messageParent(message);
 }
+
+export function registerAction(actionId: string, actionFunction: (arg?: any) => void) {
+  Office.actions.associate(actionId, actionFunction);
+}

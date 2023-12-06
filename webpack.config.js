@@ -22,7 +22,7 @@ module.exports = async (env, options) => {
       vendor: ["react", "react-dom", "core-js", "@fluentui/react-components", "@fluentui/react-icons"],
       "insert-gist": ["./src/pages/insert-gist/index.tsx", "./src/pages/insert-gist/insert-gist.html"],
       settings: ["./src/pages/settings/index.tsx", "./src/pages/settings/settings.html"],
-      commands: "./src/pages/commands/commands.ts",
+      commands: ["./src/pages/commands/commands.ts", "./src/pages/commands/commands.html"],
     },
     output: {
       clean: true,
@@ -107,7 +107,7 @@ module.exports = async (env, options) => {
       new HtmlWebpackPlugin({
         filename: "commands.html",
         template: "./src/pages/commands/commands.html",
-        chunks: ["commands"],
+        chunks: ["polyfill", "vendor", "commands"],
       }),
       new webpack.ProvidePlugin({
         Promise: ["es6-promise", "Promise"],
