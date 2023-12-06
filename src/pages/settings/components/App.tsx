@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GistSelector } from "../../../common/components/GistSelector/GistSelector";
 import { Gist } from "../../../models/gist.model";
 import { Settings } from "../../../models/settings.model";
@@ -6,10 +6,16 @@ import { getUserPublicGists } from "../../../services/gist";
 import { messageParent } from "../../../services/office";
 import styles from "./App.module.css";
 
+function getSearchParam<T>(paramName: string, defaultValue: T) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(paramName) ?? defaultValue;
+}
+
 export function App() {
-  const [githubUsername, setGithubUsername] = useState("");
+  const [githubUsername, setGithubUsername] = useState(getSearchParam("githubUsername", ""));
   const [gists, setGists] = useState<Gist[]>([]);
-  const [defaultGistId, setDefaultGistId] = useState<string | null>(null);
+  const [defaultGistId, setDefaultGistId] = useState<string | null>(getSearchParam("defaultGistId", null));
+  const isFirstLoad = useRef(true);
 
   useEffect(() => {
     async function fetchGists() {
@@ -18,7 +24,8 @@ export function App() {
       } else {
         setGists(await getUserPublicGists(githubUsername));
       }
-      setDefaultGistId(null);
+      if (isFirstLoad.current) isFirstLoad.current = false;
+      else setDefaultGistId(null);
     }
     fetchGists();
   }, [githubUsername]);
