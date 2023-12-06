@@ -12,6 +12,7 @@
   "globals": {
     "console": true,
     "Office": true,
-    "document": true
+    "document": true,
+    "window": true
   }
 }

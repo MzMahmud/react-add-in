@@ -8,12 +8,12 @@ type SettingsContextProviderProps = {
 
 type SettingsContextType = {
   settings: Settings | null;
-  updateSettings: (settings: Settings) => void;
+  updateSettings: (settings: Settings) => Promise<void>;
 };
 
 const SETTINGS_KEY = "SettingsContext.settings";
 
-const SettingsContext = createContext<SettingsContextType>({ settings: null, updateSettings: () => {} });
+const SettingsContext = createContext<SettingsContextType>({ settings: null, updateSettings: async () => {} });
 
 export function SettingsContextProvider({ children }: SettingsContextProviderProps) {
   const [settings, setSettings] = useState<Settings | null>(null);
