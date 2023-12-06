@@ -3,7 +3,7 @@ import useSettingsContext from "../../../contexts/settings";
 import { Gist, getHtmlContent } from "../../../models/gist.model";
 import { getGistWithContent, getUserPublicGists } from "../../../services/gist";
 import { displayDialogAsync, setSelectedDataAsHtml } from "../../../services/office";
-import { GistSelector } from "./GistSelector";
+import { GistSelector } from "../../../common/components/GistSelector/GistSelector";
 import { addQueryParamToUrl, getAbsoluteUrl } from "../../../utils/string.util";
 import { Settings } from "../../../models/settings.model";
 

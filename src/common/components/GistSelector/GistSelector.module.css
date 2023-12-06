@@ -1,0 +1,13 @@
+.gistDetail {
+  font-size: 0.8rem;
+  color: gray;
+  margin-left: 20px;
+}
+
+.gist {
+  margin: 10px;
+}
+
+.gistFiles {
+  margin: 5px 15px;
+}

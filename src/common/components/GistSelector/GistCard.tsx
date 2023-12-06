@@ -1,5 +1,6 @@
 import React from "react";
 import { Gist } from "../../../models/gist.model";
+import styles from "./GistSelector.module.css";
 
 interface GistGistCardProps {
   gist: Gist;
@@ -9,7 +10,7 @@ interface GistGistCardProps {
 
 export function GistCard({ gist, selectedGistId, onGistSelected }: GistGistCardProps) {
   return (
-    <div className="gist">
+    <div className={styles.gist}>
       <label>
         <input
           type="radio"
@@ -19,8 +20,8 @@ export function GistCard({ gist, selectedGistId, onGistSelected }: GistGistCardP
           onChange={(_) => onGistSelected && onGistSelected(gist.id)}
         />
         &nbsp;{gist.title}
-        <div className="gist__detail">
-          <ul style={{ margin: "5px 15px" }}>
+        <div className={styles.gistDetail}>
+          <ul className={styles.gistFiles}>
             {gist.files.map((file) => (
               <li key={file.filename}>
                 {file.filename} ({file.language})

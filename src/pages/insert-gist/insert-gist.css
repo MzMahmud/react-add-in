@@ -36,19 +36,9 @@ main {
   margin-bottom: 20px;
 }
 
-.gist {
-  margin: 10px;
-}
-
 .insert-btn {
   display: block;
   width: 100px;
-}
-
-.gist__detail {
-  font-size: 0.8rem;
-  color: gray;
-  margin-left: 20px;
 }
 
 .error-message {
