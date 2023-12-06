@@ -1,24 +1,33 @@
 import React, { useEffect, useState } from "react";
+import useSettingsContext from "../../../contexts/settings";
 import { Gist, getHtmlContent } from "../../../models/gist.model";
-import { Settings } from "../../../models/settings.model";
 import { getGistWithContent, getUserPublicGists } from "../../../services/gist";
 import { setSelectedDataAsHtml } from "../../../services/office";
 import { GistSelector } from "./GistSelector";
 
-const settings: Settings = { githubUsername: "MzMahmud" };
-
 export function App() {
+  const { settings, updateSettings } = useSettingsContext();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [selectedGistId, setSelectedGistId] = useState<string | null>(null);
   const [gists, setGists] = useState<Gist[]>([]);
 
+  const [githubUsername, setGithubUsername] = useState<string>("");
+
   useEffect(() => {
+    if (settings == null) {
+      setErrorMessage("No github username is set!");
+      return;
+    }
+    setErrorMessage(null);
     async function fetchGists() {
+      if (settings == null) {
+        return;
+      }
       const newGists = await getUserPublicGists(settings.githubUsername);
       setGists(newGists);
     }
     fetchGists();
-  }, []);
+  }, [settings]);
 
   const insertGist = async () => {
     if (selectedGistId == null) {
@@ -39,12 +48,35 @@ export function App() {
     setErrorMessage(null);
   };
 
+  const saveGithubUsernmae = () => {
+    if (githubUsername.length === 0) {
+      setErrorMessage("No github username is set!");
+      return;
+    }
+    setErrorMessage(null);
+    updateSettings({ githubUsername });
+  };
+
   return (
     <main>
       <div className="gists-section">
         <GistSelector gists={gists} selectedGistId={selectedGistId} onGistSelected={setSelectedGistId} />
       </div>
       {errorMessage != null && <div className="error-message">{errorMessage}</div>}
+
+      <div>
+        <input
+          type="text"
+          placeholder="Github Username"
+          value={githubUsername}
+          onChange={(e) => setGithubUsername(e.target.value)}
+        />
+
+        <button disabled={githubUsername === ""} onClick={saveGithubUsernmae}>
+          Save
+        </button>
+      </div>
+
       <div className="btn-container">
         <div>
           <button

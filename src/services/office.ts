@@ -24,3 +24,15 @@ export function setSelectedDataAsHtml(htmlContent: string) {
     );
   });
 }
+
+export function getFromRoamingSettings<T>(key: string) {
+  const value = Office.context.roamingSettings.get(key);
+  return value == null ? null : (value as T);
+}
+
+export async function setToRoamingSettings<T>(key: string, value: T) {
+  Office.context.roamingSettings.set(key, value);
+  return new Promise<void>((resolve) => {
+    Office.context.roamingSettings.saveAsync(() => resolve());
+  });
+}
