@@ -12,6 +12,7 @@ function getSearchParam<T>(paramName: string, defaultValue: T) {
 }
 
 export function App() {
+  const [errorMessage, setErrorMessage] = useState<string | null>(getSearchParam("errorMessage", null));
   const [githubUsername, setGithubUsername] = useState(getSearchParam("githubUsername", ""));
   const [gists, setGists] = useState<Gist[]>([]);
   const [defaultGistId, setDefaultGistId] = useState<string | null>(getSearchParam("defaultGistId", null));
@@ -24,8 +25,13 @@ export function App() {
       } else {
         setGists(await getUserPublicGists(githubUsername));
       }
-      if (isFirstLoad.current) isFirstLoad.current = false;
-      else setDefaultGistId(null);
+
+      if (isFirstLoad.current) {
+        isFirstLoad.current = false;
+      } else {
+        setDefaultGistId(null);
+        setErrorMessage(null);
+      }
     }
     fetchGists();
   }, [githubUsername]);
@@ -42,6 +48,7 @@ export function App() {
 
   return (
     <section className={styles.section}>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
       <div>
         <label>
           Github Username

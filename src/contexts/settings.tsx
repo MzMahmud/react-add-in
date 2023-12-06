@@ -1,6 +1,6 @@
 import React, { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { Settings } from "../models/settings.model";
-import { getFromRoamingSettings, setToRoamingSettings } from "../services/office";
+import { getFromRoamingSettings, removeFromRoamingSettings, setToRoamingSettings } from "../services/office";
 
 type SettingsContextProviderProps = {
   children: ReactNode;
@@ -17,6 +17,14 @@ export function getSettings() {
   return getFromRoamingSettings<Settings>(SETTINGS_KEY);
 }
 
+export function saveSettings(settings: Settings) {
+  return setToRoamingSettings(SETTINGS_KEY, settings);
+}
+
+export function clearSettings() {
+  return removeFromRoamingSettings(SETTINGS_KEY);
+}
+
 const SettingsContext = createContext<SettingsContextType>({ settings: null, updateSettings: async () => {} });
 
 export function SettingsContextProvider({ children }: SettingsContextProviderProps) {
@@ -25,7 +33,7 @@ export function SettingsContextProvider({ children }: SettingsContextProviderPro
     setSettings(getSettings());
   }, []);
   const updateSettings = async (settings: Settings) => {
-    await setToRoamingSettings(SETTINGS_KEY, settings);
+    await saveSettings(settings);
     setSettings(settings);
   };
   return <SettingsContext.Provider value={{ settings, updateSettings }}>{children}</SettingsContext.Provider>;

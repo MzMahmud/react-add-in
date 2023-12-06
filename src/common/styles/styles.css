@@ -21,8 +21,7 @@ div#tridentmessage {
 }
 
 .error-message {
-  margin-top: 10px;
-  padding: 20px;
+  padding: 5px;
   color: tomato;
   text-align: center;
 }

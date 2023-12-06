@@ -37,6 +37,13 @@ export async function setToRoamingSettings<T>(key: string, value: T) {
   });
 }
 
+export async function removeFromRoamingSettings(key: string) {
+  Office.context.roamingSettings.remove(key);
+  return new Promise<void>((resolve) => {
+    Office.context.roamingSettings.saveAsync(() => resolve());
+  });
+}
+
 export function displayDialogAsync(
   startAddress: string,
   options?: Office.DialogOptions
