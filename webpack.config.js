@@ -21,6 +21,7 @@ module.exports = async (env, options) => {
       polyfill: ["core-js/stable", "regenerator-runtime/runtime"],
       vendor: ["react", "react-dom", "core-js", "@fluentui/react-components", "@fluentui/react-icons"],
       "insert-gist": ["./src/pages/insert-gist/index.tsx", "./src/pages/insert-gist/insert-gist.html"],
+      settings: ["./src/pages/settings/index.tsx", "./src/pages/settings/settings.html"],
       commands: "./src/pages/commands/commands.ts",
     },
     output: {
@@ -84,6 +85,11 @@ module.exports = async (env, options) => {
         filename: "insert-gist.html",
         template: "./src/pages/insert-gist/insert-gist.html",
         chunks: ["polyfill", "vendor", "insert-gist"],
+      }),
+      new HtmlWebpackPlugin({
+        filename: "settings.html",
+        template: "./src/pages/settings/settings.html",
+        chunks: ["polyfill", "vendor", "settings"],
       }),
       new HtmlWebpackPlugin({
         filename: "commands.html",
