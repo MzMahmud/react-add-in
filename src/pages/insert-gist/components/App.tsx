@@ -13,8 +13,6 @@ export function App() {
   const [selectedGistId, setSelectedGistId] = useState<string | null>(null);
   const [gists, setGists] = useState<Gist[]>([]);
 
-  const [githubUsername, setGithubUsername] = useState<string>("");
-
   useEffect(() => {
     if (settings == null) {
       setErrorMessage("No github username is set!");
@@ -50,15 +48,6 @@ export function App() {
     setErrorMessage(null);
   };
 
-  const saveGithubUsernmae = () => {
-    if (githubUsername.length === 0) {
-      setErrorMessage("No github username is set!");
-      return;
-    }
-    setErrorMessage(null);
-    updateSettings({ githubUsername });
-  };
-
   const openSettingsDialogue = async () => {
     const url = addQueryParamToUrl(getAbsoluteUrl("/settings.html"), settings ?? {});
     const dialogOption = { width: 40, height: 50, displayInIframe: true };
@@ -85,20 +74,6 @@ export function App() {
         <GistSelector gists={gists} selectedGistId={selectedGistId} onGistSelected={setSelectedGistId} />
       </div>
       {errorMessage != null && <div className="error-message">{errorMessage}</div>}
-
-      <div>
-        <input
-          type="text"
-          placeholder="Github Username"
-          value={githubUsername}
-          onChange={(e) => setGithubUsername(e.target.value)}
-        />
-
-        <button disabled={githubUsername === ""} onClick={saveGithubUsernmae}>
-          Save
-        </button>
-      </div>
-
       <div className="btn-container">
         <div>
           <button

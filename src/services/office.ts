@@ -51,3 +51,7 @@ export function displayDialogAsync(
     });
   });
 }
+
+export function messageParent(message: string) {
+  Office.context.ui.messageParent(message);
+}
