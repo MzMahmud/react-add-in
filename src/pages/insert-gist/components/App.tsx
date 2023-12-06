@@ -16,15 +16,15 @@ export function App() {
   useEffect(() => {
     if (settings == null) {
       setErrorMessage("No github username is set!");
+      setGists([]);
+      setSelectedGistId(null);
       return;
     }
     setErrorMessage(null);
     async function fetchGists() {
-      if (settings == null) {
-        return;
-      }
-      const newGists = await getUserPublicGists(settings.githubUsername);
-      setGists(newGists);
+      if (settings == null) return;
+      setGists(await getUserPublicGists(settings.githubUsername));
+      setSelectedGistId(settings.defaultGistId);
     }
     fetchGists();
   }, [settings]);

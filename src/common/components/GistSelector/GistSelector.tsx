@@ -19,7 +19,7 @@ export function GistSelector({ gists, selectedGistId, onGistSelected }: GistSele
           key={gist.id}
           gist={gist}
           selectedGistId={selectedGistId}
-          onGistSelected={(id) => onGistSelected && onGistSelected(id)}
+          onGistSelected={(id) => onGistSelected?.(id)}
         />
       ))}
     </>

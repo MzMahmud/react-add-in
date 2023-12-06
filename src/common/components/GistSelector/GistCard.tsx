@@ -17,7 +17,7 @@ export function GistCard({ gist, selectedGistId, onGistSelected }: GistGistCardP
           name="gist"
           value={gist.id}
           checked={selectedGistId === gist.id}
-          onChange={(_) => onGistSelected && onGistSelected(gist.id)}
+          onChange={(_) => onGistSelected?.(gist.id)}
         />
         &nbsp;{gist.title}
         <div className={styles.gistDetail}>

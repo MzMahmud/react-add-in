@@ -41,13 +41,6 @@ main {
   width: 100px;
 }
 
-.error-message {
-  margin-top: 10px;
-  padding: 20px;
-  color: tomato;
-  text-align: center;
-}
-
 .btn-container {
   display: flex;
   flex-direction: row;
