@@ -1,3 +1,8 @@
+/* File: services/gist.ts
+ * Description: This file fetches a GitHub user's public gists and retrieves the content
+ * of a particular gist. It utilizes axios to make an HTTP request to the GitHub API.
+ */
+
 import axios from "axios";
 import { Gist } from "../models/gist.model";
 import { AsyncResponse } from "../models/response.model";

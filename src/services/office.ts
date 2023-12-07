@@ -1,3 +1,8 @@
+/* File: services/office.ts
+ * Description: This file abstracts Office.js API calls, ensuring that the client's code
+ * remains unchanged, even if modifications are made to the Office.js APIs.
+ */
+
 import { AsyncResponse } from "../models/response.model";
 
 export function setSelectedDataAsHtml(htmlContent: string) {
