@@ -1,4 +1,4 @@
-import { getSettings, saveSettings } from "../../contexts/settings";
+import { fetchSettings, saveSettings } from "../../services/settings";
 import { getHtmlContent } from "../../models/gist.model";
 import { Settings } from "../../models/settings.model";
 import { getGistWithContent } from "../../services/gist";
@@ -10,7 +10,7 @@ Office.onReady();
 registerAction("insertDefaultGist", insertDefaultGist);
 
 async function insertDefaultGist() {
-  const settings = getSettings();
+  const settings = fetchSettings();
   const defaultGistId = settings?.defaultGistId;
   if (defaultGistId == null) {
     console.error("No default gist selected!");
