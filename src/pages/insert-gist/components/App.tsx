@@ -68,6 +68,27 @@ export function App() {
     });
   };
 
+  const openIframeDialog = async () => {
+    const url = getAbsoluteUrl("iframe-dialog.html");
+    const dialogOption = { width: 40, height: 50, displayInIframe: true };
+    console.warn("openIframeDialog", url);
+    const res = await displayDialogAsync(url, dialogOption);
+    if (res.status === "ERROR") {
+      setErrorMessage(res.message);
+      return;
+    }
+    const settingsDialog = res.value;
+    settingsDialog.addEventHandler(Office.EventType.DialogMessageReceived, async (response) => {
+      if ("error" in response) {
+        console.error("dialogue message revived error", response.error);
+        return;
+      }
+      const updatedSettings = JSON.parse(response.message) as Settings;
+      await updateSettings(updatedSettings);
+      settingsDialog.close();
+    });
+  };
+
   return (
     <main>
       <div className="gists-section">
@@ -89,6 +110,11 @@ export function App() {
             ⚙️
           </button>
         </div>
+      </div>
+      <div>
+        <button className="ms-Button ms-Button--secondary settings-btn" onClick={openIframeDialog}>
+          iframe-dialog
+        </button>
       </div>
     </main>
   );

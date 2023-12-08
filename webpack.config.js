@@ -22,6 +22,7 @@ module.exports = async (env, options) => {
       vendor: ["react", "react-dom", "core-js", "@fluentui/react-components", "@fluentui/react-icons"],
       "insert-gist": ["./src/pages/insert-gist/index.tsx", "./src/pages/insert-gist/insert-gist.html"],
       settings: ["./src/pages/settings/index.tsx", "./src/pages/settings/settings.html"],
+      "iframe-dialog": ["./src/pages/iframe-dialog/index.tsx", "./src/pages/iframe-dialog/iframe-dialog.html"],
       commands: ["./src/pages/commands/commands.ts", "./src/pages/commands/commands.html"],
     },
     output: {
@@ -103,6 +104,11 @@ module.exports = async (env, options) => {
         filename: "settings.html",
         template: "./src/pages/settings/settings.html",
         chunks: ["polyfill", "vendor", "settings"],
+      }),
+      new HtmlWebpackPlugin({
+        filename: "iframe-dialog.html",
+        template: "./src/pages/iframe-dialog/iframe-dialog.html",
+        chunks: ["polyfill", "vendor", "iframe-dialog"],
       }),
       new HtmlWebpackPlugin({
         filename: "commands.html",
