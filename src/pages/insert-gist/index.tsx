@@ -1,6 +1,5 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { SettingsContextProvider } from "../../contexts/settings";
 import App from "./components/App";
 
 /* global module, require */
@@ -10,11 +9,7 @@ const root = createRoot(rootElement);
 
 /* Render application after Office initializes */
 Office.onReady(() => {
-  root.render(
-    <SettingsContextProvider>
-      <App />
-    </SettingsContextProvider>
-  );
+  root.render(<App />);
 });
 
 if ((module as any).hot) {

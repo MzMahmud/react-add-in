@@ -12,7 +12,7 @@ export function fetchSettings() {
   return getFromRoamingSettings<Settings>(SETTINGS_KEY);
 }
 
-export function saveSettings(settings: Settings) {
+export function saveSettings(settings: Settings | null) {
   return setToRoamingSettings(SETTINGS_KEY, settings);
 }
 

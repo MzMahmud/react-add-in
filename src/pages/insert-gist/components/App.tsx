@@ -1,33 +1,33 @@
-import React, { useEffect, useState } from "react";
-import useSettingsContext from "../../../contexts/settings";
+import { useSignalEffect } from "@preact/signals-react";
+import React, { useState } from "react";
+import { GistSelector } from "../../../common/components/GistSelector/GistSelector";
 import { Gist, getHtmlContent } from "../../../models/gist.model";
+import { Settings } from "../../../models/settings.model";
 import { getGistWithContent, getUserPublicGists } from "../../../services/gist";
 import { displayDialogAsync, setSelectedDataAsHtml } from "../../../services/office";
-import { GistSelector } from "../../../common/components/GistSelector/GistSelector";
+import { $settings, updateSettings } from "../../../signals/settings";
 import { addQueryParamToUrl, getAbsoluteUrl } from "../../../utils/string.util";
-import { Settings } from "../../../models/settings.model";
 
 export function App() {
-  const { settings, updateSettings } = useSettingsContext();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [selectedGistId, setSelectedGistId] = useState<string | null>(null);
   const [gists, setGists] = useState<Gist[]>([]);
 
-  useEffect(() => {
-    if (settings == null) {
+  useSignalEffect(() => {
+    if ($settings.value == null) {
       setErrorMessage("No github username is set!");
       setGists([]);
       setSelectedGistId(null);
       return;
     }
+    const settings = $settings.value;
     setErrorMessage(null);
     async function fetchGists() {
-      if (settings == null) return;
       setGists(await getUserPublicGists(settings.githubUsername));
       setSelectedGistId(settings.defaultGistId);
     }
     fetchGists();
-  }, [settings]);
+  });
 
   const insertGist = async () => {
     if (selectedGistId == null) {
@@ -49,7 +49,7 @@ export function App() {
   };
 
   const openSettingsDialogue = async () => {
-    const url = addQueryParamToUrl(getAbsoluteUrl("/settings.html"), settings ?? {});
+    const url = addQueryParamToUrl(getAbsoluteUrl("/settings.html"), $settings.value ?? {});
     const dialogOption = { width: 40, height: 50, displayInIframe: true };
     const res = await displayDialogAsync(url, dialogOption);
     if (res.status === "ERROR") {
