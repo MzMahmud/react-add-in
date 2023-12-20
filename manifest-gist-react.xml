@@ -4,11 +4,11 @@
   xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
   xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
   xsi:type="MailApp">
-  <Id>3c31cfb2-0fb6-464d-bf83-e243ed364e99</Id>
+  <Id>f11c7498-ac2c-42d5-9b6d-ec884af4ad54</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>Moaz</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Gists React (Local)" />
+  <DisplayName DefaultValue="React v1.0.0" />
   <Description DefaultValue="Allows users to access their GitHub gists." />
   <IconUrl DefaultValue="https://localhost:5000/assets/gh-80.png" />
   <HighResolutionIconUrl DefaultValue="https://localhost:5000/assets/gh-512.png" />
@@ -48,6 +48,15 @@
       </Requirements>
       <Hosts>
         <Host xsi:type="MailHost">
+          <!-- Event-based activation happens in a lightweight runtime.-->
+          <Runtimes>
+            <!-- HTML file including reference to or inline JavaScript event handlers.
+                 This is used by Outlook on the web and Outlook on the new Mac UI. -->
+            <Runtime resid="WebViewRuntime.Url">
+              <!-- JavaScript file containing event handlers. This is used by Outlook on Windows. -->
+              <Override type="javascript" resid="JSRuntime.Url" />
+            </Runtime>
+          </Runtimes>
           <DesktopFormFactor>
             <FunctionFile resid="Actions.Url" />
             <ExtensionPoint xsi:type="MessageComposeCommandSurface">
@@ -87,6 +96,42 @@
                 </Group>
               </OfficeTab>
             </ExtensionPoint>
+
+            <!-- Can configure other command surface extension points for add-in command support. -->
+
+            <!-- Enable launching the add-in on the included events. -->
+            <ExtensionPoint xsi:type="LaunchEvent">
+              <LaunchEvents>
+                <LaunchEvent Type="OnNewMessageCompose" FunctionName="onNewMessageComposeHandler" />
+                <LaunchEvent Type="OnNewAppointmentOrganizer"
+                  FunctionName="onNewAppointmentComposeHandler" />
+                <LaunchEvent Type="OnMessageSend" FunctionName="onMessageSendHandler"
+                  SendMode="PromptUser" />
+
+
+                <!-- Other available events -->
+                <!--
+                <LaunchEvent Type="OnMessageAttachmentsChanged" FunctionName="onMessageAttachmentsChangedHandler"
+                />
+                <LaunchEvent Type="OnAppointmentAttachmentsChanged"
+                FunctionName="onAppointmentAttachmentsChangedHandler" />
+                <LaunchEvent Type="OnMessageRecipientsChanged" FunctionName="onMessageRecipientsChangedHandler" />
+                <LaunchEvent Type="OnAppointmentAttendeesChanged"
+                FunctionName="onAppointmentAttendeesChangedHandler" />
+                <LaunchEvent Type="OnAppointmentTimeChanged" FunctionName="onAppointmentTimeChangedHandler" />
+                <LaunchEvent Type="OnAppointmentRecurrenceChanged"
+                FunctionName="onAppointmentRecurrenceChangedHandler" />
+                <LaunchEvent Type="OnInfoBarDismissClicked" FunctionName="onInfobarDismissClickedHandler" />
+                <LaunchEvent Type="OnMessageSend" FunctionName="onMessageSendHandler" SendMode="PromptUser" />
+                <LaunchEvent Type="OnAppointmentSend" FunctionName="onAppointmentSendHandler" SendMode="PromptUser"
+                />
+                <LaunchEvent Type="OnMessageCompose" FunctionName="onMessageComposeHandler" />
+                <LaunchEvent Type="OnAppointmentOrganizer" FunctionName="onAppointmentOrganizerHandler" />
+                -->
+              </LaunchEvents>
+              <!-- Identifies the runtime to be used (also referenced by the Runtime element). -->
+              <SourceLocation resid="WebViewRuntime.Url" />
+            </ExtensionPoint>
           </DesktopFormFactor>
         </Host>
       </Hosts>
@@ -99,6 +144,9 @@
         <bt:Urls>
           <bt:Url id="Actions.Url" DefaultValue="https://localhost:5000/commands.html" />
           <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:5000/insert-gist.html" />
+          <bt:Url id="WebViewRuntime.Url" DefaultValue="https://localhost:5000/launch-event.html" />
+          <!-- Entry needed for Outlook on Windows. -->
+          <bt:Url id="JSRuntime.Url" DefaultValue="https://localhost:5000/launch-event.js" />
         </bt:Urls>
         <bt:ShortStrings>
           <bt:String id="GroupLabel" DefaultValue="Git the gist" />
