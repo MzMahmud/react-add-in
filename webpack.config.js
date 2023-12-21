@@ -123,6 +123,9 @@ module.exports = async (env, options) => {
         options: env.WEBPACK_BUILD || options.https !== undefined ? options.https : await getHttpsOptions(),
       },
       port: process.env.npm_package_config_dev_server_port ?? 5000,
+      proxy: {
+        "/api": { target: "http://localhost:8080", secure: false },
+      },
     },
   };
 

@@ -13,6 +13,7 @@
     "console": true,
     "Office": true,
     "document": true,
-    "window": true
+    "window": true,
+    "fetch": true
   }
 }
