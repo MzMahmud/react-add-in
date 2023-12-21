@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { GistSelector } from "../../../common/components/GistSelector/GistSelector";
 import useSettingsContext from "../../../contexts/settings";
+import logger, { fetchLogs } from "../../../logger";
 import { Gist, getHtmlContent } from "../../../models/gist.model";
+import { Settings } from "../../../models/settings.model";
 import { getGistWithContent, getUserPublicGists } from "../../../services/gist";
 import { displayDialogAsync, setSelectedDataAsHtml } from "../../../services/office";
-import { GistSelector } from "../../../common/components/GistSelector/GistSelector";
 import { addQueryParamToUrl, getAbsoluteUrl } from "../../../utils/string.util";
-import { Settings } from "../../../models/settings.model";
 
 export function App() {
   const { settings, updateSettings } = useSettingsContext();
@@ -39,7 +40,9 @@ export function App() {
       setErrorMessage(gistRes.message);
       return;
     }
+    logger.debug("Insert this gist", gistRes.value);
     const htmlContent = getHtmlContent(gistRes.value);
+    logger.debug("HTML Content", htmlContent);
     const res = await setSelectedDataAsHtml(htmlContent);
     if (res.status === "ERROR") {
       setErrorMessage(res.message);
@@ -50,22 +53,29 @@ export function App() {
 
   const openSettingsDialogue = async () => {
     const url = addQueryParamToUrl(getAbsoluteUrl("/settings.html"), settings ?? {});
+    logger.debug("Opening settings dialogue with url", url);
     const dialogOption = { width: 40, height: 50, displayInIframe: true };
     const res = await displayDialogAsync(url, dialogOption);
     if (res.status === "ERROR") {
+      logger.error(res.message);
       setErrorMessage(res.message);
       return;
     }
     const settingsDialog = res.value;
     settingsDialog.addEventHandler(Office.EventType.DialogMessageReceived, async (response) => {
       if ("error" in response) {
-        console.error("dialogue message revived error", response.error);
+        logger.error("dialogue message revived error", response.error);
         return;
       }
       const updatedSettings = JSON.parse(response.message) as Settings;
+      logger.debug("updatedSettings", updatedSettings);
       await updateSettings(updatedSettings);
       settingsDialog.close();
     });
+  };
+
+  const getLogs = () => {
+    console.log("logs", fetchLogs());
   };
 
   return (
@@ -89,6 +99,11 @@ export function App() {
             ⚙️
           </button>
         </div>
+      </div>
+      <div style={{ marginTop: "5px", textAlign: "center" }}>
+        <button className="ms-Button ms-Button--secondary settings-btn" onClick={getLogs}>
+          Get Logs
+        </button>
       </div>
     </main>
   );

@@ -4,17 +4,18 @@
   xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
   xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
   xsi:type="MailApp">
-  <Id>3c31cfb2-0fb6-464d-bf83-e243ed364e99</Id>
+  <Id>37888a34-0cd6-4204-ae9c-e8e2f0c2eaea</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>Moaz</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Gists React (Local)" />
+  <DisplayName DefaultValue="GitsReactLocal" />
   <Description DefaultValue="Allows users to access their GitHub gists." />
   <IconUrl DefaultValue="https://localhost:5000/assets/gh-80.png" />
   <HighResolutionIconUrl DefaultValue="https://localhost:5000/assets/gh-512.png" />
   <SupportUrl DefaultValue="https://moazmahmud.com" />
   <AppDomains>
     <AppDomain>https://moazmahmud.com</AppDomain>
+    <AppDomain>https://localhost:5000</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Mailbox" />
