@@ -12,11 +12,13 @@ const logger = pino({
 });
 
 async function send(level: Level, logEvent: LogEvent) {
-  saveToRomingSettings(logEvent);
-  saveToServer(logEvent);
+  // saveToRomingSettings(logEvent);
+  // saveToServer(logEvent);
+  saveToLocalStorage(logEvent);
 }
 
-const logKey = "USER_LOGS";
+const officeAppId = "37888a34-0cd6-4204-ae9c-e8e2f0c2eaea";
+const logKey = `office-app-${officeAppId}-logs`;
 
 async function saveToRomingSettings(logEvent: LogEvent) {
   const logs: LogEvent[] = getFromRoamingSettings(logKey) ?? [];
@@ -34,8 +36,19 @@ async function saveToServer(logEvent: LogEvent) {
   });
 }
 
+function saveToLocalStorage(logEvent: LogEvent) {
+  const logs: LogEvent[] = fetchLogsFromLocalStorage();
+  logs.push(logEvent);
+  window.localStorage.setItem(logKey, JSON.stringify(logs));
+}
+
 export function fetchLogs(): LogEvent[] {
   return getFromRoamingSettings(logKey) ?? [];
+}
+
+export function fetchLogsFromLocalStorage(): LogEvent[] {
+  const logsStr = window.localStorage.getItem(logKey) ?? "[]";
+  return JSON.parse(logsStr);
 }
 
 export default logger;

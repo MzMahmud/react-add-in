@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { GistSelector } from "../../../common/components/GistSelector/GistSelector";
 import useSettingsContext from "../../../contexts/settings";
-import logger, { fetchLogs } from "../../../logger";
+import logger, { fetchLogs, fetchLogsFromLocalStorage } from "../../../logger";
 import { Gist, getHtmlContent } from "../../../models/gist.model";
 import { Settings } from "../../../models/settings.model";
 import { getGistWithContent, getUserPublicGists } from "../../../services/gist";
@@ -74,8 +74,16 @@ export function App() {
     });
   };
 
-  const getLogs = () => {
-    console.log("logs", fetchLogs());
+  const getLogs = async () => {
+    const logs = fetchLogsFromLocalStorage();
+    console.log("logs", logs);
+    const logLines = `<pre><code>${logs.map((log) => JSON.stringify(log)).join("\n")}</code></pre>`;
+    const res = await setSelectedDataAsHtml(logLines);
+    if (res.status === "ERROR") {
+      setErrorMessage(res.message);
+      return;
+    }
+    setErrorMessage(null);
   };
 
   return (
