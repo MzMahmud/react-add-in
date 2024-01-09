@@ -24,7 +24,7 @@
     "stop": "office-addin-debugging stop manifest-gist-react.xml",
     "validate": "office-addin-manifest validate manifest-gist-react.xml",
     "watch": "webpack --mode development --watch",
-    "test": "jest"
+    "test": "jest --watch"
   },
   "dependencies": {
     "@fluentui/react-components": "^9.30.4",

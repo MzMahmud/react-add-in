@@ -1,5 +1,5 @@
-export function getAbsoluteUrl(relativeUrl: string) {
-  return urlPathJoin(window.location.origin, relativeUrl);
+export function getAbsoluteUrl(relativeUrl: string, baseUrl: string = window.location.origin) {
+  return urlPathJoin(baseUrl, relativeUrl);
 }
 
 function removeLeadingAndTrailingSlash(s: string) {
