@@ -16,5 +16,6 @@ function urlPathJoin(...paths: string[]) {
 export function addQueryParamToUrl(url: string, queryParamObj: Record<string, any>) {
   const seperator = url.includes("?") ? "&" : "?";
   const urlSearchParams = new URLSearchParams(queryParamObj);
+  if (urlSearchParams.size === 0) return url;
   return `${url}${seperator}${urlSearchParams.toString()}`;
 }
