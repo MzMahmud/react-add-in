@@ -23,6 +23,7 @@ module.exports = async (env, options) => {
       "insert-gist": ["./src/pages/insert-gist/index.tsx", "./src/pages/insert-gist/insert-gist.html"],
       settings: ["./src/pages/settings/index.tsx", "./src/pages/settings/settings.html"],
       commands: ["./src/pages/commands/commands.ts", "./src/pages/commands/commands.html"],
+      home: ["./src/pages/home/index.tsx", "./src/pages/home/home.html"],
     },
     output: {
       clean: true,
@@ -108,6 +109,11 @@ module.exports = async (env, options) => {
         filename: "commands.html",
         template: "./src/pages/commands/commands.html",
         chunks: ["polyfill", "vendor", "commands"],
+      }),
+      new HtmlWebpackPlugin({
+        filename: "home.html",
+        template: "./src/pages/home/home.html",
+        chunks: ["polyfill", "vendor", "home"],
       }),
       new webpack.ProvidePlugin({
         Promise: ["es6-promise", "Promise"],
