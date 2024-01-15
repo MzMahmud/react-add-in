@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getAbsoluteUrl } from "../../../utils/string.util";
 import { displayDialogAsync } from "../../../services/office";
 
 export function App() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [authToken, setAuthToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const token = window.localStorage.getItem("authToken");
+    if (token != null) {
+      setAuthToken(JSON.stringify(JSON.parse(token), null, 2));
+    }
+  }, []);
 
   const openLoginDialogue = async () => {
     const url = getAbsoluteUrl("/login.html");
@@ -19,20 +27,41 @@ export function App() {
         console.error("dialogue message revived error", response.error);
         return;
       }
-      settingsDialog.close();
+      const authToken = response.message;
+      window.localStorage.setItem("authToken", authToken);
+      setAuthToken(JSON.stringify(JSON.parse(authToken), null, 2));
+      // settingsDialog.close();
     });
+  };
+
+  const onLogout = () => {
+    window.localStorage.removeItem("authToken");
+    setAuthToken(null);
   };
 
   return (
     <main>
-      <div className="gists-section">
-        <div>You are not logged in. Please Login!</div>
-        <div className="btn-container">
-          <button className="ms-Button ms-Button--secondary settings-btn" onClick={openLoginDialogue}>
-            Login
-          </button>
+      {authToken == null && (
+        <div className="gists-section">
+          <div>You are not logged in. Please Login!</div>
+          <div className="btn-container">
+            <button className="ms-Button ms-Button--secondary settings-btn" onClick={openLoginDialogue}>
+              Login
+            </button>
+          </div>
         </div>
-      </div>
+      )}
+      {authToken != null && (
+        <div>
+          Logged In
+          <pre>{authToken}</pre>
+          <div className="btn-container">
+            <button className="ms-Button ms-Button--secondary settings-btn" onClick={onLogout}>
+              Logout
+            </button>
+          </div>
+        </div>
+      )}
       {errorMessage != null && <div className="error-message">{errorMessage}</div>}
     </main>
   );

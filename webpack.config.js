@@ -25,6 +25,7 @@ module.exports = async (env, options) => {
       commands: ["./src/pages/commands/commands.ts", "./src/pages/commands/commands.html"],
       home: ["./src/pages/home/index.tsx", "./src/pages/home/home.html"],
       login: ["./src/pages/login/index.tsx", "./src/pages/login/login.html"],
+      "login-success": ["./src/pages/login-success/index.ts", "./src/pages/login-success/login-success.html"],
     },
     output: {
       clean: true,
@@ -120,6 +121,11 @@ module.exports = async (env, options) => {
         filename: "login.html",
         template: "./src/pages/login/login.html",
         chunks: ["polyfill", "vendor", "login"],
+      }),
+      new HtmlWebpackPlugin({
+        filename: "login-success.html",
+        template: "./src/pages/login-success/login-success.html",
+        chunks: ["login-success"],
       }),
       new webpack.ProvidePlugin({
         Promise: ["es6-promise", "Promise"],
