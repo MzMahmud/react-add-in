@@ -30,7 +30,7 @@ export function App() {
       const authToken = response.message;
       window.localStorage.setItem("authToken", authToken);
       setAuthToken(JSON.stringify(JSON.parse(authToken), null, 2));
-      // settingsDialog.close();
+      settingsDialog.close();
     });
   };
 
