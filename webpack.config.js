@@ -24,6 +24,7 @@ module.exports = async (env, options) => {
       settings: ["./src/pages/settings/index.tsx", "./src/pages/settings/settings.html"],
       commands: ["./src/pages/commands/commands.ts", "./src/pages/commands/commands.html"],
       home: ["./src/pages/home/index.tsx", "./src/pages/home/home.html"],
+      login: ["./src/pages/login/index.tsx", "./src/pages/login/login.html"],
     },
     output: {
       clean: true,
@@ -114,6 +115,11 @@ module.exports = async (env, options) => {
         filename: "home.html",
         template: "./src/pages/home/home.html",
         chunks: ["polyfill", "vendor", "home"],
+      }),
+      new HtmlWebpackPlugin({
+        filename: "login.html",
+        template: "./src/pages/login/login.html",
+        chunks: ["polyfill", "vendor", "login"],
       }),
       new webpack.ProvidePlugin({
         Promise: ["es6-promise", "Promise"],
