@@ -15,7 +15,7 @@ export function App() {
 
   const openLoginDialogue = async () => {
     const url = getAbsoluteUrl("/login.html");
-    const dialogOption = { width: 40, height: 50, displayInIframe: true };
+    const dialogOption: Office.DialogOptions = { width: 40, height: 50, displayInIframe: true };
     const res = await displayDialogAsync(url, dialogOption);
     if (res.status === "ERROR") {
       setErrorMessage(res.message);
